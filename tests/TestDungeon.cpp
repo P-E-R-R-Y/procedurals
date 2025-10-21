@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "TeenyKeepDev.hpp"
+#include "TinyKeepDev.hpp"
 
 TEST(GeometryConstraintMethod, A) {
     //std::vector<Rect> rects = generateRectangleInCircle(100, 100, 2, 0.5);
