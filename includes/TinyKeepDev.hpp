@@ -84,7 +84,6 @@ class TinyKeepDev {
 
                         float dx = rects[j].x - rects[i].x;
                         float dy = rects[j].y - rects[i].y;
-                        float distSq = dx*dx + dy*dy;
 
                         if (isCollidingOrClose(rects[i], rects[j])) {
                             float dx = rects[j].x - rects[i].x;
