@@ -76,14 +76,11 @@ class TinyKeepDev {
         }
 
         template<int its = 50>
-        static std::vector<Vector4f> relaxRects(std::vector<Vector4f> rects) {
+        static void relaxRects(std::vector<Vector4f>& rects) {
 
             for (int i = 0; i < its; ++i) {
                 for (size_t i = 0; i < rects.size(); ++i) {
                     for (size_t j = i + 1; j < rects.size(); ++j) {
-
-                        float dx = rects[j].x - rects[i].x;
-                        float dy = rects[j].y - rects[i].y;
 
                         if (isCollidingOrClose(rects[i], rects[j])) {
                             float dx = rects[j].x - rects[i].x;
