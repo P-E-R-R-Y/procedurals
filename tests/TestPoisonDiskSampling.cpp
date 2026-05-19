@@ -45,6 +45,16 @@ bool isValid(const Point& pt, float r, const std::vector<int>& grid, float cellS
     return true;
 }
 
+/**
+ * @brief Generates points using Poisson Disk Sampling, ensuring a minimum distance r between points.
+ * 
+ * @param width -> Width of the area
+ * @param height -> Height of the area
+ * @param r -> Minimum distance between points
+ * @param k -> Number of attempts before rejection
+ * @param seed -> Seed for random number generation
+ * @return std::vector<Point> 
+ */
 std::vector<Point> poissonDisk(float width, float height, float r, int k=30, uint64_t seed=42) {
     float cellSize = r / std::sqrt(2.0f);
     int gridW = int(width / cellSize) + 1;

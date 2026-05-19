@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(GoogleTest REQUIRED)
 find_package(System REQUIRED)
+find_package(Maths REQUIRED)
 
 ## ----------- Executable -----------
 set(SOURCE_FILES sources/no_source.cpp)
@@ -17,6 +18,7 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
   system
+  maths
 )
 
 ## ----------- Include -----------

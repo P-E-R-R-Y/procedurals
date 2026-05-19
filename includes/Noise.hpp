@@ -9,6 +9,8 @@
 
 #include "Smoothing.hpp"
 #include <cmath>
+#include <cstdint>
+#include <random>
 
 /**
  * @brief 2D deterministic value noise in [-1, 1].
@@ -22,6 +24,7 @@
  * @param seed Optional seed for reproducibility
  * @return float Noise value in [-1, 1]
  */
+
 float noise2D(float x, float y, uint64_t seed = 0) noexcept {
     int xi = static_cast<int>(std::floor(x));
     int yi = static_cast<int>(std::floor(y));
@@ -88,15 +91,11 @@ inline float ridge2D(float x, float y, int octaves = 5, float gain = 0.5f, float
     return result;
 }
 
-inline float rarity2D(float x, float y, int nbVal, float rarity = 0.01f, uint64_t seed = 0) {
-    float r = random2D(x, y, seed); // decide si l’objet existe
-    if (r > rarity) return 0.0f;    // 0 = rien
+inline float rarity2D(float x, float y, float rarity = 0.01f, uint64_t seed = 0) {
+    float r = random2D(x, y, seed);          // does it exist?
 
-    // Choisir une valeur entre 0 et nbVal
-    int val = 1 + (int)(random2D(x, y, seed + 999) * nbVal);
-    if (val > nbVal) val = nbVal;
-
-    return static_cast<float>(val); // float pour visualiser, peut être casté en int
+    if (r > rarity) return 0.0f;              // 0 = nothing
+    return random2D(x, y, seed + 999);        // (0, 1] = which one
 }
 
 inline float worley2D(float x, float y, uint64_t seed = 0) noexcept {
@@ -130,17 +129,7 @@ inline float worley2D(float x, float y, uint64_t seed = 0) noexcept {
     return minDist; // souvent dans [0,1] après normalisation
 }
 
-#include <cmath>
-#include <cstdint>
-#include <random>
-
 // -------------------- Simplex 2D --------------------
-inline float grad(int hash, float x, float y) {
-    int h = hash & 7; // 8 directions
-    float u = h < 4 ? x : y;
-    float v = h < 4 ? y : x;
-    return ((h & 1) ? -u : u) + ((h & 2) ? -2.0f*v : 2.0f*v);
-}
 
 // initPerm using deterministic RNG
 inline void initPerm(uint8_t* perm, uint64_t seed) {
@@ -157,6 +146,13 @@ inline void initPerm(uint8_t* perm, uint64_t seed) {
 
     // Duplicate for wrap-around
     for(int i=0;i<256;i++) perm[i+256]=perm[i];
+}
+
+inline float grad(int hash, float x, float y) {
+    int h = hash & 7; // 8 directions
+    float u = h < 4 ? x : y;
+    float v = h < 4 ? y : x;
+    return ((h & 1) ? -u : u) + ((h & 2) ? -2.0f*v : 2.0f*v);
 }
 
 inline float simplex2D(float xin, float yin, uint64_t seed = 0) {
@@ -197,34 +193,3 @@ inline float simplex2D(float xin, float yin, uint64_t seed = 0) {
 
     return (70.0f * (n0 + n1 + n2)) * 0.5 + 0.5; // valeur brute [0,1] approximative
 }
-
-inline void visualizer2D(
-    const std::string& filename,
-    int width,
-    int height,
-    float scale,
-    const std::function<float(float, float)>& noiseFunc)
-{
-    std::ofstream out(filename, std::ios::binary);
-    if (!out) return;
-
-    out << "P6\n" << width << " " << height << "\n255\n";
-
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            float nx = (x - width / 2.0f) / scale;
-            float ny = (y - height / 2.0f) / scale;
-            float n = noiseFunc(nx, ny);
-
-            // Normalize from [-1, 1] → [0, 255]
-            unsigned char v = static_cast<unsigned char>(
-                std::clamp((n * 0.5f + 0.5f) * 255.0f, 0.0f, 255.0f)
-            );
-
-            out.put(v).put(v).put(v); // grayscale RGB
-        }
-    }
-
-    out.close();
-}
-

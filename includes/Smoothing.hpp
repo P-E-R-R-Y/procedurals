@@ -35,14 +35,16 @@ inline float InterpolateEaseInOut(float a, float b, float t) noexcept {
     return Lerp(a, b, s);
 }
 
+/**
+ * @brief Quantize a float value into discrete levels, useful for stylized effects.
+ * 
+ * @tparam Levels 
+ * @param v 
+ * @return float 
+ */
 template<int Levels = 10>
 inline float Quantize(float v) {
     constexpr float step = 1.0f / (Levels);
     int bucket = (int)(v / step);
     return bucket * step;
-}
-
-inline bool RareEvent(float v, int rarityLevel = 100) {
-    int bucket = (int)(v * rarityLevel);
-    return bucket == 0; // 1% chance
 }

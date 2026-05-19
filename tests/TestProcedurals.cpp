@@ -13,6 +13,7 @@
 #include <fstream>
 #include <functional>
 #include "Noise.hpp"
+#include "Visualizer.hpp"
 
 TEST(Deterministic, noise2D) {
     std::cout << mix64(0) << std::endl;
@@ -33,7 +34,7 @@ TEST(Deterministic, noise2D) {
         return ridge2D(x, y, 5);
     });
 
-    visualizer2D("domainWarp.ppm", 512, 512, 50.f, [](float x, float y) {
+    visualizer2D("domain_warp.ppm", 512, 512, 50.f, [](float x, float y) {
         float w = warp2D(x, y);
 
         return noise2D(x + w, y + w);
@@ -43,8 +44,8 @@ TEST(Deterministic, noise2D) {
         return warp2D(x, y);
     });
 
-    visualizer2D("loot.ppm", 512, 512, 50.0f, [](float x, float y) {
-        return rarity2D(x, y, 3, 0.001);
+    visualizer2D("rarity.ppm", 512, 512, 1.0f, [](float x, float y) {
+        return rarity2D(x, y, 0.01);
     });
 
     visualizer2D("worley.ppm", 512, 512, 50.0f, [](float x, float y) {

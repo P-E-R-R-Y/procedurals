@@ -12,6 +12,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include "Deterministic.hpp"
+#include "Visualizer.hpp"
 
 struct Rect {
     int x, y, w, h;
@@ -92,14 +93,14 @@ void splitBSP(Rect r, int depth, std::vector<Rect>& rooms, uint64_t seed = 0) {
 // ------------------ OUTILS ------------------
 Point center(const Rect& r) { return {r.x + r.w / 2, r.y + r.h / 2}; }
 
-void drawRect(std::vector<std::vector<unsigned char>>& map, const Rect& r, unsigned char val) {
+void drawRect(std::vector<std::vector<float>>& map, const Rect& r, float val) {
     for (int y = r.y; y < r.y + r.h; ++y)
         for (int x = r.x; x < r.x + r.w; ++x)
             if (y >= 0 && x >= 0 && y < (int)map.size() && x < (int)map[0].size())
                 map[y][x] = val;
 }
 
-void connectRooms(std::vector<std::vector<unsigned char>>& map, const Rect& a, const Rect& b, int corridorWidth = 5) {
+void connectRooms(std::vector<std::vector<float>>& map, const Rect& a, const Rect& b, int corridorWidth = 5) {
     Point pa = center(a);
     Point pb = center(b);
 
@@ -148,7 +149,7 @@ Point wallPointSafe(const Rect& from, const Rect& to, int corridorWidth) {
     return p;
 }
 
-void carveCorridor(std::vector<std::vector<unsigned char>>& map,
+void carveCorridor(std::vector<std::vector<float>>& map,
                    const Rect& a, const Rect& b,
                    int corridorWidth = 2)
 {
@@ -168,23 +169,10 @@ void carveCorridor(std::vector<std::vector<unsigned char>>& map,
                 map[y][pb.x + w] = 0;
 }
 
-// ------------------ EXPORT PPM ------------------
-void savePPM(const std::string& filename, const std::vector<std::vector<unsigned char>>& map) {
-    int H = map.size(), W = map[0].size();
-    std::ofstream out(filename, std::ios::binary);
-    out << "P6\n" << W << " " << H << "\n255\n";
-    for (int y = 0; y < H; ++y)
-        for (int x = 0; x < W; ++x) {
-            unsigned char c = map[y][x];
-            out.put(c).put(c).put(c);
-        }
-    out.close();
-}
-
 // ------------------ MAIN ------------------
 TEST(BSP, test) {
     const int W = 256, H = 256;
-    std::vector<std::vector<unsigned char>> map(H, std::vector<unsigned char>(W, 255)); // blanc = mur
+    std::vector<std::vector<float>> map(H, std::vector<float>(W, 1.0f)); // 1.0 = mur
 
     std::vector<Rect> rooms;
     splitBSP({0, 0, W, H}, 4, rooms);
@@ -199,6 +187,6 @@ TEST(BSP, test) {
     for (size_t i = 0; i + 1 < rooms.size(); ++i)
         connectRooms(map, rooms[i], rooms[i + 1], 5);
 
-    savePPM("bsp_dungeon.ppm", map);
+    visualizer2D("bsp_dungeon.ppm", map);
     std::cout << "✅ Donjon généré : bsp_dungeon.ppm" << std::endl;
 }
