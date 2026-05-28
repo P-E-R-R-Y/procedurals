@@ -13,6 +13,7 @@
 #include <vector>
 #include <stdio.h>
 #include "Type.hpp"
+#include "graph.hpp"
 
 class TinyKeepDev {
     private:
@@ -41,6 +42,19 @@ class TinyKeepDev {
                     a.y + a.h/2 + margin < b.y - b.h/2 ||
                     a.y - a.h/2 - margin > b.y + b.h/2);
         }
+        //mst
+        struct EqV2 {
+            bool operator()(const Vector2f& a, const Vector2f& b) const {
+                return a.same(b);
+            }
+        };
+        struct DistV2 {
+            double operator()(const Vector2f& a, const Vector2f& b) const {
+                double dx = a.x - b.x, dy = a.y - b.y;
+                return std::sqrt(dx * dx + dy * dy);
+            }
+        };
+
 
     public:
 
@@ -275,4 +289,55 @@ class TinyKeepDev {
 
             return edges;
         }
+
+    // mst
+        static std::vector<Linef> mst(const std::vector<Linef>& edges) {
+            std::vector<std::pair<Vector2f, Vector2f>> pairs;
+            pairs.reserve(edges.size());
+            for (const auto& e : edges) pairs.emplace_back(e.p1, e.p2);
+
+            auto g   = Graph<Vector2f, EqV2>::fromPairs<DistV2>(pairs);
+            auto mst = g.mst();
+
+            std::vector<Linef> result;
+            result.reserve(mst.edgeCount());
+            for (const auto& link : mst.edges())
+                result.push_back({mst.node(link.from), mst.node(link.to)});
+            return result;
+        }
+
+    static std::vector<Linef> shortenLine(const std::vector<Rectf>& rects,
+                                            const std::vector<Linef>& edges) {
+        auto findRect = [&](const Vector2f& p) -> const Rectf* {
+            for (const auto& r : rects) {
+                Vector2f c{r.x, r.y};
+                if (c.same(p)) return &r;
+            }
+            return nullptr;
+        };
+
+        auto exitPoint = [](const Rectf& r, const Vector2f& other) -> Vector2f {
+            double dx = other.x - r.x;
+            double dy = other.y - r.y;
+            constexpr double INF = std::numeric_limits<double>::infinity();
+            double tx = (std::abs(dx) > epsilond) ? (r.w * 0.5) / std::abs(dx) : INF;
+            double ty = (std::abs(dy) > epsilond) ? (r.h * 0.5) / std::abs(dy) : INF;
+            double t  = std::min(tx, ty);
+            return {r.x + t * dx, r.y + t * dy};
+        };
+
+        std::vector<Linef> result;
+        result.reserve(edges.size());
+
+        for (const auto& e : edges) {
+            const Rectf* ra = findRect(e.p1);
+            const Rectf* rb = findRect(e.p2);
+            if (!ra || !rb) { result.push_back(e); continue; }   // can't match → keep as-is
+
+            Vector2f a = exitPoint(*ra, e.p2);   // exit ra toward p2
+            Vector2f b = exitPoint(*rb, e.p1);   // exit rb toward p1
+            result.push_back({a, b});
+        }
+        return result;
+    }
 };
