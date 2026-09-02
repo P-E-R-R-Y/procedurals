@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-12
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #pragma once
@@ -193,3 +196,5 @@ inline float simplex2D(float xin, float yin, uint64_t seed = 0) {
 
     return (70.0f * (n0 + n1 + n2)) * 0.5 + 0.5; // valeur brute [0,1] approximative
 }
+/** @} */
+

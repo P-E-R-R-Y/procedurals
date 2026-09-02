@@ -3,6 +3,9 @@
  * @author Perry Chouteau
  * @brief Tile-based WFC, best-effort. Always returns a grid.
  *        On contradiction, the offending constraint is skipped and generation continues.
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #pragma once
@@ -97,4 +100,5 @@ public:
                 result[y][x] = cell[y][x].empty() ? 0 : cell[y][x][0];
         return result;
     }
-};
+};/** @} */
+

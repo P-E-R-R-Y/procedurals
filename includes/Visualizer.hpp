@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-12
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #pragma once
@@ -57,4 +60,5 @@ inline void visualizer2D(const std::string& filename, const std::vector<std::vec
             out.put(c).put(c).put(c);
         }
     out.close();
-}
+}/** @} */
+

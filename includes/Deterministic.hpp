@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-12
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #include <cstdint>
@@ -88,4 +91,5 @@ inline float random4D(int x, int y, int z, int w, uint64_t seed = 0) noexcept {
 inline uint64_t SplitSeed(uint64_t seed, uint64_t channel) noexcept {
     // simple dérivation : ajout du channel * MAGIC1 pour bien mélanger les bits
     return mix64(seed + channel * MAGIC1);
-}
+}/** @} */
+

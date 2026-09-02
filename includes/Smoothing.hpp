@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-12
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #include "Deterministic.hpp"
@@ -47,4 +50,5 @@ inline float Quantize(float v) {
     constexpr float step = 1.0f / (Levels);
     int bucket = (int)(v / step);
     return bucket * step;
-}
+}/** @} */
+

@@ -7,7 +7,7 @@ Same input + seed → same output. No global RNG, no `<random>` dependency.
 
 | fBm + ridge + warp | TinyKeep dungeon | Wave Function Collapse |
 |:---:|:---:|:---:|
-| ![](preview/final.png) | <img src="preview/visualizer_tinykeep.png" width="512"/> | ![](preview/wave_func_collapse.png) |
+| ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/final.png) | <img src="https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/visualizer_tinykeep.png" width="512"/> | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/wave_func_collapse.png) |
 
 ---
 
@@ -110,7 +110,7 @@ float h = fbm2D  (x * 0.01f, y * 0.01f, /*octaves=*/5, seed);
 
 | noise2D | fbm2D |
 |:---:|:---:|
-| ![](preview/noise.png) | ![](preview/fbm.png) |
+| ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/noise.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/fbm.png) |
 
 ### Layered terrain
 
@@ -122,7 +122,7 @@ visualizer2D("terrain.ppm", 512, 512, 50.0f, [](float x, float y) {
 });
 ```
 
-![](preview/final.png)
+![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/final.png)
 
 ### Splitting a seed into independent channels
 
@@ -147,7 +147,7 @@ auto mst       = TinyKeepDev::mst(delaunay);
 
 | 1. Scatter | 2. Relax | 3. Delaunay | 4. MST |
 |:---:|:---:|:---:|:---:|
-| ![](preview/tinykeep_1_generate.png) | ![](preview/tinykeep_2_relax.png) | ![](preview/tinykeep_3_delaunay.png) | ![](preview/tinykeep_4_mst.png) |
+| ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/tinykeep_1_generate.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/tinykeep_2_relax.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/tinykeep_3_delaunay.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/tinykeep_4_mst.png) |
 
 ### Poisson disk sampling
 
@@ -159,7 +159,7 @@ auto points = PoissonDisk::generate(/*W=*/200, /*H=*/200,
                                     /*k=*/10, /*seed=*/123);
 ```
 
-![](preview/poisson_disk.png)
+![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/poisson_disk.png)
 
 ### Wave Function Collapse
 
@@ -176,23 +176,23 @@ WaveFunctionCollapse::Rules rules{{
 auto grid = WaveFunctionCollapse::collapse(64, 64, rules, /*seed=*/0);
 ```
 
-![](preview/wave_func_collapse.png)
+![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/wave_func_collapse.png)
 
 ### BSP dungeon
 
 The `tests/TestBSP.cpp` showcase recursively splits a rectangle and connects room centers with corridors:
 
-![](preview/bsp_dungeon.png)
+![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/bsp_dungeon.png)
 
 ### More patterns
 
 | Worley | Inv. Worley | Ridge |
 |:---:|:---:|:---:|
-| ![](preview/worley.png) | ![](preview/inv_worley.png) | ![](preview/ridge.png) |
+| ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/worley.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/inv_worley.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/ridge.png) |
 
 | Domain warp | Simplex | Rarity |
 |:---:|:---:|:---:|
-| ![](preview/domain_warp.png) | ![](preview/simplex.png) | ![](preview/rarity.png) |
+| ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/domain_warp.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/simplex.png) | ![](https://raw.githubusercontent.com/P-E-R-R-Y/procedurals/main/docs/preview/rarity.png) |
 
 ---
 

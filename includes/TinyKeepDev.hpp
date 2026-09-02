@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-15
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #include "Deterministic.hpp"
@@ -341,3 +344,5 @@ class TinyKeepDev {
         return result;
     }
 };
+/** @} */
+

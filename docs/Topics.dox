@@ -1,0 +1,8 @@
+/**
+ * @defgroup procedurals procedurals
+ *
+ * @brief Procedural generation building blocks.
+ *
+ * Noise, Poisson disk sampling, smoothing, and a TinyKeep-style dungeon
+ * generator. Deterministic : same seed, same output.
+ */

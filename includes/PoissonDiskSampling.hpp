@@ -2,6 +2,9 @@
  * @file PoissonDisk.hpp
  * @author Perry Chouteau
  * @brief Poisson disk sampling — random points with guaranteed minimum spacing.
+ *
+ * @addtogroup procedurals
+ * @{
  */
 
 #pragma once
@@ -89,4 +92,5 @@ private:
         }
         return true;
     }
-};
+};/** @} */
+
