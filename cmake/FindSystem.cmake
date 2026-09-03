@@ -1,5 +1,5 @@
 set(NAME system)
-set(TAG main)
+set(TAG v1.0.0)
 
 if(NOT ${NAME}_FOUND)
     include(FetchContent)
